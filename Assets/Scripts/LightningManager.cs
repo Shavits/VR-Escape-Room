@@ -46,7 +46,7 @@ public class LightningManager : MonoBehaviour
 
     private List<LightningBoltScript> GetLightningRange()
     {
-        int numOfStrikes = Mathf.RoundToInt(Random.Range(1f, 3f));
+        int numOfStrikes = Mathf.RoundToInt(Random.Range(1f, lightnings.Count/4));
         if((curLightning + numOfStrikes) >= lightnings.Count)
         {
             numOfStrikes = lightnings.Count - curLightning;
