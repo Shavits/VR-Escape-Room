@@ -36,11 +36,15 @@ public class TeleportationManager : MonoBehaviour
         {
             return;
         }
-        if (thumbstick.triggered)
+        /*if (thumbstick.triggered)
+        {
+            return;
+        }*/
+        if (thumbstick.ReadValue<Vector2>() != Vector2.zero)
         {
             return;
         }
-        if(!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
             rayInteractor.enabled = false;
             isActive = false;
