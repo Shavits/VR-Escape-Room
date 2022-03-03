@@ -12,6 +12,10 @@ public class Riddle1Controller : MonoBehaviour
     [SerializeField] XRSocketInteractor TopRightSocket;
     [SerializeField] XRSocketInteractor BottomLeftSocket;
     [SerializeField] XRSocketInteractor BottomRightSocket;
+    [SerializeField] GameObject YellowBattery;
+    [SerializeField] GameObject RedBattery;
+    [SerializeField] GameObject GreenBattery;
+    [SerializeField] GameObject BlueBattery;
 
     public static UnityAction Riddle1Complete;
 
@@ -81,5 +85,22 @@ public class Riddle1Controller : MonoBehaviour
                 break;
         }
         return socket;
+    }
+
+    public void SolveRiddle()
+    {
+        YellowBattery.transform.rotation = new Quaternion(0f, 0f, 0f,0f);
+        YellowBattery.transform.position = new Vector3(-4.65f, 1.95f, -2.1f);
+        
+        RedBattery.transform.position = new Vector3(-4.95f, 1.95f, -2.1f);
+        RedBattery.transform.rotation = new Quaternion(0f, 0f, 0f,0f);
+
+        GreenBattery.transform.position = new Vector3(-4.65f, 1.95f, -1.8f);
+        GreenBattery.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+
+        BlueBattery.transform.position = new Vector3(-4.95f, 1.95f, -1.8f);
+        BlueBattery.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+
+        Riddle1Complete.Invoke();
     }
 }

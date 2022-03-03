@@ -1,12 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
 
     [SerializeField] Animator ShieldCoreAnim;
+    [SerializeField] Animator DoorAnim;
+    [SerializeField] TextMeshProUGUI stationStatusText;
+    [SerializeField] GameObject outSideTeleportArea;
+
+    public static UnityAction BreakDown;
+
 
 
     private bool shieldCoreWorking;
@@ -14,38 +22,43 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        outSideTeleportArea.SetActive(false);
         Riddle1Controller.Riddle1Complete += OnRiddle1Complete;
         Riddle2Controller.Riddle2Complete += OnRiddle2Complete;
-        Invoke("Riddle1Setup", 20f);
-    }
+        Riddle3Controller.Riddle3Complete += OnRiddle3Complete;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+        Invoke("Riddle1Setup", 5f);
     }
 
 
+
+    
 
     private void Riddle1Setup()
     {
         ShieldCoreAnim.SetBool("Generator Working", false);
         //Play engine failing audio
         //Start electric particles
-        //Change backup engine lights
+        stationStatusText.text = "Full System failure, insert batteries to emergency capacitor to restart backup generator";
+        BreakDown.Invoke();
+
 
     }
 
     private void Riddle2Setup()
     {
-        //stop backup engine lights
+
         //Activate sencond station
-        
+        stationStatusText.text = "Backup power online, regulate cooling and shields in the station control unit";
     }
 
     private void Riddle3Setup()
     {
-        //Open door
+
+        DoorAnim.SetBool("character_nearby", true);
+        stationStatusText.text = "Station lockdown lifted, repair generator outside of station";
+        outSideTeleportArea.SetActive(true);
     }
 
     private void OnRiddle1Complete()
@@ -57,12 +70,12 @@ public class GameController : MonoBehaviour
     
     private void OnRiddle2Complete()
     {
-        throw new NotImplementedException();
+        Riddle3Setup();
     }
     
     private void OnRiddle3Complete()
     {
-        throw new NotImplementedException();
+        stationStatusText.text = "Yay";
     }
 
 }

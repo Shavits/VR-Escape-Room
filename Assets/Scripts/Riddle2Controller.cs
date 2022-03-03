@@ -5,11 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Riddle2Controller : MonoBehaviour
 {
 
     public static UnityAction Riddle2Complete;
+
+    [SerializeField] List<GameObject> screens = new List<GameObject>();
+    [SerializeField] List<XRGrabInteractable> interactables = new List<XRGrabInteractable>();
 
     [SerializeField] Image screen1Frame;
     [SerializeField] TextMeshProUGUI shieldStatusText;
@@ -25,7 +29,6 @@ public class Riddle2Controller : MonoBehaviour
     
     private ShieldStatus shieldStatus;
     private float stabilizingTimer;
-
     private float outerShieldPower;
     private float innerShieldPower;
     private float totalShieldPower;
@@ -34,15 +37,17 @@ public class Riddle2Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shieldStatus = ShieldStatus.overpowered;
-        stabilizingTimer = 3f;
-        outerShieldPower = 0f;
-        innerShieldPower = 0f;
-        mainCoolingOn = false;
+        foreach(GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
 
-        updateCoolingScreen();
-        updateShieldScreen();
-        updateStatusScreen();
+        foreach(XRGrabInteractable interactable in interactables)
+        {
+            interactable.enabled = false;
+        }
+        Riddle1Controller.Riddle1Complete += Init;
+        
     }
 
 
@@ -163,6 +168,42 @@ public class Riddle2Controller : MonoBehaviour
         {
             screen2Frame.color = Color.red;
         }
+    }
+
+    private void Init()
+    {
+        foreach (GameObject screen in screens)
+        {
+            screen.SetActive(true);
+        }
+
+        foreach (XRGrabInteractable interactable in interactables)
+        {
+            interactable.enabled = true;
+        }
+
+        shieldStatus = ShieldStatus.underpowered;
+        stabilizingTimer = 3f;
+        outerShieldPower = 0f;
+        innerShieldPower = 0f;
+        mainCoolingOn = false;
+
+        updateCoolingScreen();
+        updateShieldScreen();
+        updateStatusScreen();
+    }
+
+    public void SolveRiddle()
+    {
+        mainCoolingOn = true;
+        outerShieldPower = 1f;
+        innerShieldPower = 0.5f;
+        totalShieldPower = 0.8f;
+        shieldStatus = ShieldStatus.stable;
+        updateCoolingScreen();
+        updateShieldScreen();
+        updateStatusScreen();
+        Riddle2Complete.Invoke();
     }
 
     private enum ShieldStatus
