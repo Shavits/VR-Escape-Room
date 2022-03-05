@@ -35,7 +35,7 @@ public class Riddle1Controller : MonoBehaviour
     public void BatteryInserted(int socketID)
     {
         int batteryID = int.Parse(GetSocketFromID(socketID).firstInteractableSelected.transform.name.Split(' ')[1]);
-        Debug.Log(batteryID);
+        
         if(batteryID == socketID)
         {
             state[socketID] = true;
@@ -45,7 +45,7 @@ public class Riddle1Controller : MonoBehaviour
 
     public void BatteryRemoved(int socketID)
     {
-        Debug.Log(socketID);
+        
         state[socketID] = false;
     }
 
@@ -101,6 +101,6 @@ public class Riddle1Controller : MonoBehaviour
         BlueBattery.transform.position = new Vector3(-4.95f, 1.95f, -1.8f);
         BlueBattery.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
 
-        Riddle1Complete.Invoke();
+        
     }
 }

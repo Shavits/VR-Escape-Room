@@ -8,12 +8,14 @@ public class FirestreamContoller : MonoBehaviour
     [SerializeField] int flameNum;
     
     private ParticleSystem flames;
+    private AudioSource audioSource;
     private bool extinguished;
 
     // Start is called before the first frame update
     void Start()
     {
         flames = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
         extinguished = false;
     }
 
@@ -24,8 +26,20 @@ public class FirestreamContoller : MonoBehaviour
         if(other.name == "ExtinguisherParticle" && !extinguished)
         {
             extinguished = true;
-            flames.Stop();
+            Stop();
             riddle.FireExtinguished(flameNum);
         }
+    }
+
+    public void Play()
+    {
+        flames.Play();
+        audioSource.Play();
+    }
+
+    public void Stop()
+    {
+        flames.Stop();
+        audioSource.Stop();
     }
 }

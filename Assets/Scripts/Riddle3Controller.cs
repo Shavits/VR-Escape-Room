@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Riddle3Controller : MonoBehaviour
 {
     [SerializeField] Animator generatorAnim;
-    [SerializeField] List<ParticleSystem> flameStreams = new List<ParticleSystem>();
+    [SerializeField] List<FirestreamContoller> flameStreams = new List<FirestreamContoller>();
 
     public static UnityAction Riddle3Complete;
 
@@ -16,7 +16,7 @@ public class Riddle3Controller : MonoBehaviour
     void Start()
     {
         state = new bool[3];
-        foreach(ParticleSystem flameStream in flameStreams)
+        foreach(FirestreamContoller flameStream in flameStreams)
         {
             flameStream.Stop();
         }
@@ -52,7 +52,7 @@ public class Riddle3Controller : MonoBehaviour
 
     private void Init()
     {
-        foreach (ParticleSystem flameStream in flameStreams)
+        foreach (FirestreamContoller flameStream in flameStreams)
         {
             flameStream.Play();
         }
@@ -61,7 +61,7 @@ public class Riddle3Controller : MonoBehaviour
 
     public void SolveRiddle()
     {
-        foreach (ParticleSystem flameStream in flameStreams)
+        foreach (FirestreamContoller flameStream in flameStreams)
         {
             flameStream.Stop();
         }
