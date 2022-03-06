@@ -80,6 +80,8 @@ public class TrialLogger : MonoBehaviour {
                 trial["end_time"] = Time.time.ToString();
                 output.Add(FormatTrialData());
                 trialStarted = false;
+                File.WriteAllLines(dataOutputPath, output.ToArray());
+                Debug.Log(string.Format("Saved data to {0}.", dataOutputPath));
             }
             else Debug.LogError("Error ending trial - Trial wasn't started properly");
 

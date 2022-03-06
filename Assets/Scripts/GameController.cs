@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -91,12 +92,24 @@ public class GameController : MonoBehaviour
         UpdateHighScore(totalTime);
         trialLogger.trial["Riddle3"] = timer.ToString();
         trialLogger.EndTrial();
+        Invoke("GameOver", 5f);
         
     }
 
     private void UpdateHighScore(float time)
     {
-        if(!PlayerPrefs.HasKey("First Place"))
+        if(PlayerPrefs.HasKey("First Place") && time < PlayerPrefs.GetFloat("First Place"))
+        {
+            PlayerPrefs.SetFloat("First Place", time);
+        }
+        else if(PlayerPrefs.HasKey("Second Place") && time < PlayerPrefs.GetFloat("Second Place"))
+        {
+            PlayerPrefs.SetFloat("Second Place", time);
+        }else if(PlayerPrefs.HasKey("Third Place") && time < PlayerPrefs.GetFloat("Third Place"))
+        {
+            PlayerPrefs.SetFloat("Third Place", time);
+        }
+        else if (!PlayerPrefs.HasKey("First Place"))
         {
             PlayerPrefs.SetFloat("First Place", time);
         }else if(!PlayerPrefs.HasKey("Second Place"))
@@ -106,19 +119,13 @@ public class GameController : MonoBehaviour
         {
             PlayerPrefs.SetFloat("Third Place", time);
         }
-        else
-        {
-            if(time < PlayerPrefs.GetFloat("First Place"))
-            {
-                PlayerPrefs.SetFloat("First Place", time);
-            }else if(time < PlayerPrefs.GetFloat("Second Place"))
-            {
-                PlayerPrefs.SetFloat("Second Place", time);
-            }else if (time < PlayerPrefs.GetFloat("Third Place"))
-            {
-                PlayerPrefs.SetFloat("Third Place", time);
-            }
-        }
+        PlayerPrefs.Save();
+       
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
 }
